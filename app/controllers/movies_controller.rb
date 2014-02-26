@@ -1,3 +1,6 @@
+# Thanks to:
+#	Jessica Lynch
+
 class MoviesController < ApplicationController
 
   def show
@@ -7,7 +10,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.find
+    @movies = Movie.all
 	@all_ratings = Movie.getRatings
 
 	if params[:sort_by] == 'title'
@@ -25,9 +28,11 @@ class MoviesController < ApplicationController
 		@movies = Movie.order("release_date")
 	end
 
+	# Check to see if params are empty. If not, 	
 	if !(params[:ratings].nil?)
 		session[:ratings] = params[:ratings]
 		@movies = @movies.select {|movie| params[:ratings].include?(movie.rating)}
+	
 	elsif !(session[:ratings].nil?)
 		@movies = @movies.select {|movie| session[:ratings].include?(movie.rating)}
 	end
