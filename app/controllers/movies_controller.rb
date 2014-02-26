@@ -29,14 +29,24 @@ class MoviesController < ApplicationController
 	end
 
 	# Check to see if params are empty. If not, 	
-	if !(params[:ratings].nil?)
+	if params[:ratings]
 		session[:ratings] = params[:ratings]
 		@movies = @movies.select {|movie| params[:ratings].include?(movie.rating)}
 	
-	elsif !(session[:ratings].nil?)
+	elsif session[:ratings]
 		@movies = @movies.select {|movie| session[:ratings].include?(movie.rating)}
 	end
 
+	if params[:sort_by]
+		session[:sort_by] = params[:sort_by]
+	elsif session[:sort_by]
+		params[:sort_by] = session[:sort_by]
+	end
+
+	if session[:sort_by] != params[:sort_by]
+		params[:sort_by] = session[:sort_by]
+	end
+		
   end
 
   def new
