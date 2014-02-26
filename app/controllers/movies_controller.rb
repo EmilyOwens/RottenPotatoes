@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @movies = Movie.find
 	@all_ratings = Movie.getRatings
 
 	if params[:sort_by] == 'title'
