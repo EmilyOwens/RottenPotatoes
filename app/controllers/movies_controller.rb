@@ -12,17 +12,24 @@ class MoviesController < ApplicationController
 
 	if params[:sort_by] == 'title'
 		@title_header = 'hilite'
-		@movies = Movie.order('title')
+		@movies = Movie.order("title")
 	end
 	
 	if params[:sort_by] == 'rating'
 		@rating_header = 'hilite'
-		@movies = Movie.order('rating')
+		@movies = Movie.order("rating")
 	end
 
 	if params[:sort_by] == 'release_date'
 		@date_header = 'hilite'
-		@movies = Movie.order('release_date')
+		@movies = Movie.order("release_date")
+	end
+
+	if !(params[:ratings].nil?)
+		session[:ratings] = params[:ratings]
+		@movies = @movies.select {|movie| params[:ratings].include?(movie.rating)}
+	elsif !(session[:ratings].nil?)
+		@movies = @movies.select {|movie| session[:ratings].include?(movie.rating)}
 	end
 
   end
