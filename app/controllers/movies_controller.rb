@@ -16,19 +16,23 @@ class MoviesController < ApplicationController
 	if params[:sort_by] == 'title'
 		@title_header = 'hilite'
 		@movies = Movie.order("title")
+		session[:sort_by] == 'title'
 	end
 	
 	if params[:sort_by] == 'rating'
 		@rating_header = 'hilite'
 		@movies = Movie.order("rating")
+		session[:sort_by] == 'rating'
 	end
 
 	if params[:sort_by] == 'release_date'
 		@date_header = 'hilite'
 		@movies = Movie.order("release_date")
+		session[:sort_by] == 'release_date'
 	end
 
-	# Check to see if params are empty. If not, 	
+
+	# Check to see if params are empty. 	
 	if params[:ratings]
 		session[:ratings] = params[:ratings]
 		@movies = @movies.select {|movie| params[:ratings].include?(movie.rating)}
@@ -37,15 +41,6 @@ class MoviesController < ApplicationController
 		@movies = @movies.select {|movie| session[:ratings].include?(movie.rating)}
 	end
 
-	if params[:sort_by]
-		session[:sort_by] = params[:sort_by]
-	elsif session[:sort_by]
-		params[:sort_by] = session[:sort_by]
-	end
-
-	if session[:sort_by] != params[:sort_by]
-		params[:sort_by] = session[:sort_by]
-	end
 		
   end
 
